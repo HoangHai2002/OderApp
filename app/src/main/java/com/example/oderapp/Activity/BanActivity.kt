@@ -37,6 +37,7 @@ class BanActivity : AppCompatActivity() {
     lateinit var listBan: MutableList<Ban>
     lateinit var listKvBan: MutableList<KhuVucBan>
     lateinit var dbRef: DatabaseReference
+    var name: String = "triệu đức Hiếu"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
