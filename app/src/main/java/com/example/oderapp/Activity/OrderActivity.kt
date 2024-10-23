@@ -82,6 +82,7 @@ class OrderActivity : AppCompatActivity() {
     }
 
     private fun resestSoLuong(){
+        var a = "r"
         dbRef = FirebaseDatabase.getInstance().getReference("MonAn")
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
