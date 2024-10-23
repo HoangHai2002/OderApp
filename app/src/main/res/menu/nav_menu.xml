@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+    <item
+        android:id="@+id/btn_back2"
+        android:title="Quay về giao diện cũ"
+        android:icon="@drawable/back2"/>
+    <item
+        android:id="@+id/btn_qlKhuVucBan"
+        android:title="Quản lý khu vực bàn"
+        android:icon="@drawable/kvban"/>
+    <item
+        android:id="@+id/btn_quanLyBan"
+        android:title="Quản lý bàn"
+        android:icon="@drawable/ban"/>
+    <item
+        android:id="@+id/btn_logout"
+        android:title="Đăng xuất"
+        android:icon="@drawable/logout"/>
+</menu>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "964101408758",
+    "project_id": "oderapp-48f20",
+    "storage_bucket": "oderapp-48f20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964101408758:android:228f2111a5627b70a1a9d7",
+        "android_client_info": {
+          "package_name": "com.example.oderapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4Ezzx7icDjmNYER4yrfizivktAL3GhV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

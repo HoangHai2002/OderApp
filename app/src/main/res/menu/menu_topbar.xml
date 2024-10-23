@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/btn_search"
+        android:title=""
+        android:icon="@drawable/search"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/btn_alert"
+        android:title=""
+        android:icon="@drawable/alert"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/tbfeedback"
+        android:title=""
+        android:icon="@drawable/book"
+        app:showAsAction="always"/>
+
+
+</menu>
