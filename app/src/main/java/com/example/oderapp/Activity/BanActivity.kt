@@ -40,6 +40,7 @@ class BanActivity : AppCompatActivity() {
     var name: String = "triệu đức Hiếu dep trai so 1"
     var name1: String = "triệu đức Hiếu dep trai so 1"
     var age: Int = 20
+    var masv: String = "fkdjfgksd"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
