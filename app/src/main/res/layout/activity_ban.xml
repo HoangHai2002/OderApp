@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        android:navigationIcon="@drawable/back2"
         app:titleTextColor="@color/white"
         android:background="#5C93E2"/>
 

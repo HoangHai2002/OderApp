@@ -37,10 +37,7 @@ class BanActivity : AppCompatActivity() {
     lateinit var listBan: MutableList<Ban>
     lateinit var listKvBan: MutableList<KhuVucBan>
     lateinit var dbRef: DatabaseReference
-    var name: String = "triệu đức Hiếu dep trai so 1"
-    var name1: String = "triệu đức Hiếu dep trai so 1"
-    var age: Int = 20
-    var masv: String = "fkdjfgksd"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -149,7 +146,7 @@ class BanActivity : AppCompatActivity() {
             }else if (tenBan.text.toString() == "") {
                 Toast.makeText(this@BanActivity, "Tên bàn không được để trống", Toast.LENGTH_SHORT).show()
             } else {
-                themKV(khuVuc.text.toString(), tenBan.text.toString())
+                themBan(khuVuc.text.toString(), tenBan.text.toString())
                 dialog.dismiss()
             }
 
@@ -181,7 +178,7 @@ class BanActivity : AppCompatActivity() {
         }
         popupMenu.show()
     }
-    fun themKV(tenKv: String, tenBan: String) {
+    fun themBan(tenKv: String, tenBan: String) {
         dbRef = FirebaseDatabase.getInstance().getReference("Ban")
         dbRef.orderByChild("tenBan").equalTo(tenBan).addListenerForSingleValueEvent(object :
             ValueEventListener {

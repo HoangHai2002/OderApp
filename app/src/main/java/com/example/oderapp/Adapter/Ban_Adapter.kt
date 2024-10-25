@@ -1,6 +1,7 @@
 package com.example.oderapp.Adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oderapp.Interface.itf_Click_Ban
@@ -23,8 +24,15 @@ class Ban_Adapter(private var listBan : MutableList<Ban>, var listener : itf_Cli
         holder.tenBan.setText(itemData.tenBan)
         holder.thoiGian.setText(itemData.thoigian)
         holder.slkhach.setText("${itemData.slKhach} khách")
-        holder.tongTien.setText(itemData.tongtien.toString())
 
+        var tongTien = itemData.tongtien.toString().replace(Regex("(\\d)(?=(\\d{3})+\$)"), "$1,")
+
+        holder.tongTien.setText("${tongTien}đ")
+
+        if (itemData.trangThai == true){
+            holder.layout.setBackgroundResource(R.drawable.background_ban_selected)
+            holder.tongTien.visibility = View.VISIBLE
+        }
         holder.itemView.setOnClickListener {
             listener.onClick(itemData, position)
         }
