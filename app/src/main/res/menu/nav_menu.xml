@@ -16,7 +16,17 @@
         android:title="Quản lý bàn"
         android:icon="@drawable/ban"/>
     <item
+        android:id="@+id/quanLyMonAn"
+        android:title="Quản lý món ăn"
+        android:icon="@drawable/food"/>
+    <item
+        android:id="@+id/categoryManagement"
+        android:title="quản lý loại món"
+        android:icon="@drawable/drink"/>
+    <item
         android:id="@+id/btn_logout"
         android:title="Đăng xuất"
         android:icon="@drawable/logout"/>
+
+
 </menu>

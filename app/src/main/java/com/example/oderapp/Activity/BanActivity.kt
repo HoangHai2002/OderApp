@@ -120,7 +120,6 @@ class BanActivity : AppCompatActivity() {
         val tenBan = EditText(this)
         tenBan.hint = "Nhập tên bàn"
 
-
         val khuVuc = TextView(this)
         khuVuc.hint = "Chọn khu vực"
         khuVuc.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20f)

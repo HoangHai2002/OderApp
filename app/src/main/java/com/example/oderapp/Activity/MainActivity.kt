@@ -77,6 +77,14 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+                R.id.quanLyMonAn ->{
+                    val intent = Intent(this, FoodManagement::class.java)
+                    startActivity(intent)
+                }
+                R.id.categoryManagement ->{
+                    val intent = Intent(this, CategoryFood::class.java)
+                    startActivity(intent)
+                }
             }
             true
         }

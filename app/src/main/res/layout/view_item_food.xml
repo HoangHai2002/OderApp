@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_item_food"
+    android:layout_margin="15dp"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/food"
+        app:tint="#447BCA"
+        android:padding="15dp"
+        android:background="@drawable/background_food"/>
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_gravity="top"
+            android:id="@+id/txtFoodName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ba chi bo my"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+            <TextView
+                android:layout_gravity="bottom"
+                android:id="@+id/txtPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:text="60,000"/>
+        <ImageView
+            android:layout_gravity="end|center_vertical"
+            android:id="@+id/menuItem"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:src="@drawable/dots"
+            app:tint="#434141" />
+    </FrameLayout>
+
+</LinearLayout>
