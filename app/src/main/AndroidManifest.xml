@@ -19,6 +19,12 @@
             android:name=".Activity.FoodManagement"
             android:exported="false" />
         <activity
+            android:name=".Activity.BanSelectedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.BanSelectedActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.OrderActivity"
             android:exported="false" />
         <activity

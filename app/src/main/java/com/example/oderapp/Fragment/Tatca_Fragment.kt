@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.oderapp.Activity.BanSelectedActivity
 import com.example.oderapp.Activity.OrderActivity
 import com.example.oderapp.Adapter.Ban_Adapter
 import com.example.oderapp.Interface.itf_Click_Ban
@@ -59,6 +60,10 @@ class Tatca_Fragment : Fragment() {
             override fun onClick(itemData: Ban, pos: Int) {
                 if(itemData.trangThai == false){
                     var intent = Intent(context, OrderActivity::class.java)
+                    intent.putExtra("id", itemData.id)
+                    startActivity(intent)
+                }else{
+                    var intent = Intent(context, BanSelectedActivity::class.java)
                     intent.putExtra("id", itemData.id)
                     startActivity(intent)
                 }
