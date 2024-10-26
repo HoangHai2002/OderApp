@@ -3,6 +3,7 @@ package com.example.oderapp.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -38,6 +39,12 @@ class FoodManagement : AppCompatActivity() {
         enableEdgeToEdge()
         bind = ActivityFoodManagementBinding.inflate(layoutInflater)
         setContentView(bind.root)
+
+        //Toolbar
+        setSupportActionBar(bind.toolbar1)
+        supportActionBar?.title = "Quản lý món ăn"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         listFood = mutableListOf()
         listCategory = mutableListOf()
         adapterCategory = CategoryFoodAdapter(this, listCategory)
@@ -49,6 +56,15 @@ class FoodManagement : AppCompatActivity() {
        bind.addFood.setOnClickListener(){
            addFood()
        }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return true
     }
     fun addFood(){
         var dialog = layoutInflater.inflate(R.layout.dialog_add_food, null)

@@ -21,7 +21,7 @@
         android:icon="@drawable/food"/>
     <item
         android:id="@+id/categoryManagement"
-        android:title="quản lý loại món"
+        android:title="Quản lý loại món"
         android:icon="@drawable/drink"/>
     <item
         android:id="@+id/btn_logout"

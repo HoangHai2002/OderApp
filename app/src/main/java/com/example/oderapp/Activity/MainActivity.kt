@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oderapp.Adapter.Khuvucban_Adapter
+import com.example.oderapp.Fragment.Sudung_Fragment
 import com.example.oderapp.Fragment.Tatca_Fragment
 import com.example.oderapp.Interface.itf_Click_khuVucBan
 import com.example.oderapp.Interface.itf_UD_QLKVBan
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var listData: MutableList<KhuVucBan>
     lateinit var dbRef: DatabaseReference
     lateinit var toggle: ActionBarDrawerToggle
+    var posselected : Int = 0
+    var tenkv : String? = null
+    var trangThaiBan  = "tatca"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -92,8 +96,8 @@ class MainActivity : AppCompatActivity() {
         // Gửi tên khu vực qua Fragment để hiển thị bàn tương ứng với khu vực
         val listener = object :itf_Click_khuVucBan{
             override fun onClick(itemData: KhuVucBan, pos: Int, posSelected: Int) {
-                var tenkv : String? = ""
-                if(posSelected != RecyclerView.NO_POSITION){
+                posselected = posSelected
+                if(posselected != RecyclerView.NO_POSITION){
                     tenkv = itemData.name.toString()
                 }else{
                     tenkv = null
@@ -101,6 +105,7 @@ class MainActivity : AppCompatActivity() {
                 val fragment = Tatca_Fragment()
                 val bundle = Bundle()
                 bundle.putString("a", tenkv)
+                bundle.putString("trangThaiBan", trangThaiBan)
                 fragment.arguments = bundle
                 replaceFragment(fragment)
             }
@@ -120,19 +125,43 @@ class MainActivity : AppCompatActivity() {
 
         //Hiện thanh line
         bind.layoutTatca.setOnClickListener {
+            trangThaiBan = "tatca"
             bind.line1.visibility = View.VISIBLE
             bind.line2.visibility = View.GONE
             bind.line3.visibility = View.GONE
+
+            val fragment = Tatca_Fragment()
+            val bundle = Bundle()
+            bundle.putString("a", tenkv)
+            bundle.putString("trangThaiBan", trangThaiBan)
+            fragment.arguments = bundle
+            replaceFragment(fragment)
         }
         bind.layoutSudung.setOnClickListener {
+            trangThaiBan = "sudung"
             bind.line1.visibility = View.GONE
             bind.line2.visibility = View.VISIBLE
             bind.line3.visibility = View.GONE
+
+            val fragment = Tatca_Fragment()
+            val bundle = Bundle()
+            bundle.putString("a", tenkv)
+            bundle.putString("trangThaiBan", trangThaiBan)
+            fragment.arguments = bundle
+            replaceFragment(fragment)
         }
         bind.layoutControng.setOnClickListener {
+            trangThaiBan = "controng"
             bind.line1.visibility = View.GONE
             bind.line2.visibility = View.GONE
             bind.line3.visibility = View.VISIBLE
+
+            val fragment = Tatca_Fragment()
+            val bundle = Bundle()
+            bundle.putString("a", tenkv)
+            bundle.putString("trangThaiBan", trangThaiBan)
+            fragment.arguments = bundle
+            replaceFragment(fragment)
         }
 
     }
