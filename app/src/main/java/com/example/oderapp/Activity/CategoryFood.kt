@@ -14,7 +14,10 @@ import com.example.oderapp.Adapter.CategoryFoodAdapter
 import com.example.oderapp.Model.LoaiMonAn
 import com.example.oderapp.R
 import com.example.oderapp.databinding.ActivityCategoryFoodBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class CategoryFood : AppCompatActivity() {
     lateinit var bind: ActivityCategoryFoodBinding
@@ -39,7 +42,6 @@ class CategoryFood : AppCompatActivity() {
 
             val edtNameCategory = dialog.findViewById<EditText>(R.id.edtCategoryName)
             val addCategory = dialog.findViewById<Button>(R.id.addCategory)
-
             addCategory.setOnClickListener{
                 val data = dataBase.push()
                 val categoryId = data.key
@@ -47,13 +49,35 @@ class CategoryFood : AppCompatActivity() {
                     categoryId,
                     edtNameCategory.text.toString()
                 )
-                data.setValue(loaiMonAn).addOnSuccessListener {
-                    Toast.makeText(this, "Thêm loại món ăn thành công", Toast.LENGTH_SHORT).show()
-                    listCategory.clear()
-                    adapter.getCategoryData()
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Thêm Thất bại", Toast.LENGTH_SHORT).show()
-                }
+                dataBase.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()){
+                            for (category in snapshot.children){
+                                val checkCategoryName = category.child("name").getValue(String::class.java)
+                                if (edtNameCategory.text.toString().trim().isEmpty()){
+                                    Toast.makeText(applicationContext, "vui lòng nhập tên loại món", Toast.LENGTH_LONG).show()
+                                    return
+                                }
+                                if (edtNameCategory.text.toString().trim().equals(checkCategoryName)){
+                                    Toast.makeText(applicationContext, "Loại món ăn đã tồn tại", Toast.LENGTH_LONG).show()
+                                    return
+                                }
+                            }
+                            data.setValue(loaiMonAn).addOnSuccessListener {
+                                Toast.makeText(applicationContext, "Thêm loại món ăn thành công", Toast.LENGTH_SHORT).show()
+                                listCategory.clear()
+                                adapter.getCategoryData()
+                                alertDialog.dismiss()
+                            }.addOnFailureListener {
+                                Toast.makeText(applicationContext, "Thêm Thất bại", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
             }
             alertDialog.show()
         }
