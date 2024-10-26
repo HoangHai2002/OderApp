@@ -79,51 +79,7 @@ class FoodManagement : AppCompatActivity() {
                 chooseCategory.setText(it)
             }
         }
-        btnAddFood.setOnClickListener{
-            if (idFood.text.toString().isEmpty()
-                || foodName.text.toString().isEmpty() ||
-                price.text.toString().isEmpty() || chooseCategory.text.toString().equals("chọn loại món")){
-                Toast.makeText(this, "vui lòng nhập đầy đủ thông tin món ăn", Toast.LENGTH_LONG).show()
-            }else{
-                mydata.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.exists()){
-                            for(food in snapshot.children){
-                                val checkName = food.child("tenMonAn").getValue(String::class.java)
-                                if (food.key.equals(idFood.text.toString().trim()) || checkName.equals(foodName.text.toString().trim())){
-                                    Toast.makeText(applicationContext, "Món ăn đã tồn tại", Toast.LENGTH_LONG).show()
-                                    return
-                                }
-                            }
-                            var prices = price.text.toString().toInt()
-                            val food = MonAn(
-                                idFood.text.toString(),
-                                foodName.text.toString(),
-                                chooseCategory.text.toString(),
-                                prices,
-                                0
-                            )
-                            mydata.child(idFood.text.toString()).setValue(food)
-                                .addOnSuccessListener {
-                                    listFood.clear()
-                                    adapter.getFoodData()
-                                    Toast.makeText(applicationContext, "add successfuly", Toast.LENGTH_SHORT).show()
-                                    alertDialog.dismiss()
-                                }
-                                .addOnFailureListener {
-                                    Toast.makeText(applicationContext, "add field", Toast.LENGTH_SHORT).show()
-                                }
-                        }
-                    }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
-
-                })
-            }
-        }
-        alertDialog.show()
     }
     fun showPopUpMenu(view: View,callback: (String) -> Unit){
         val popupMenu = PopupMenu(this@FoodManagement, view)
