@@ -55,6 +55,7 @@ class Tatca_Fragment : Fragment() {
             listBan.clear()
             getBan(tenKhuVuc)
         }
+
         var listener = object : itf_Click_Ban{
             override fun onClick(itemData: Ban, pos: Int) {
                 if(itemData.trangThai == false){
@@ -109,6 +110,7 @@ class Tatca_Fragment : Fragment() {
                     }
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
 
             }

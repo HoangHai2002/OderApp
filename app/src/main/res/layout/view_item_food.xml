@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_item_food"
     android:layout_margin="15dp"
     android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -36,11 +35,13 @@
                 android:layout_height="wrap_content"
                 android:textSize="18dp"
                 android:text="60,000"/>
+
         <ImageView
-            android:layout_gravity="end|center_vertical"
             android:id="@+id/menuItem"
             android:layout_width="40dp"
-            android:layout_height="35dp"
+            android:layout_height="27dp"
+            android:layout_marginEnd="30dp"
+            android:layout_gravity="end|center_vertical"
             android:src="@drawable/dots"
             app:tint="#434141" />
     </FrameLayout>

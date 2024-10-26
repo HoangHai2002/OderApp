@@ -2,14 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
     android:padding="10dp"
-    android:layout_marginBottom="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
     <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@drawable/food"
         app:tint="#447BCA"
         android:padding="15dp"
@@ -21,6 +19,7 @@
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_tenMonAn"
+            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ba chi bo my"

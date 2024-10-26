@@ -80,6 +80,7 @@ class BanActivity : AppCompatActivity() {
         }
 
 
+        //Get sum từ Banselected
 
         //Hiển thị bàn
         replaceFragment(QlyBan_Fragment())

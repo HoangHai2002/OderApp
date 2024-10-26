@@ -46,14 +46,15 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:text="Tổng tiền"/>
+
         <TextView
             android:id="@+id/tv_tongtien"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:text="0"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:text="30,000"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
     <Button
@@ -66,17 +67,17 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-    <ImageView
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_add"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/background_buttonadd"
-        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/plus"
+        android:backgroundTint="@color/imv"
+        android:clickable="true"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white" />
+        app:srcCompat="@drawable/icon_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

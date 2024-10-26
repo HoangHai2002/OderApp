@@ -29,16 +29,15 @@
              />
     </LinearLayout>
 
-
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/imv_add"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:padding="5dp"
-        android:src="@drawable/add"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="60dp"
+        android:backgroundTint="@color/imv"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar1"
-        app:tint="@color/grey" />
+        app:srcCompat="@drawable/icon_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>

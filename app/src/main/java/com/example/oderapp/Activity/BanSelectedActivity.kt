@@ -49,10 +49,10 @@ class BanSelectedActivity : AppCompatActivity() {
 
 
         bind.btnThanhtoan.setOnClickListener {
-//            dbRef = FirebaseDatabase.getInstance().getReference("Ban").child(id.toString())
-//            val newBanUpdates = HashMap<String, Any>()
-//            newBanUpdates["trangThai"] = false
-//            dbRef.updateChildren(newBanUpdates)
+            dbRef = FirebaseDatabase.getInstance().getReference("Ban").child(id.toString())
+            val newBanUpdates = HashMap<String, Any>()
+            newBanUpdates["trangThai"] = false
+            dbRef.updateChildren(newBanUpdates)
         }
         bind.btnAdd.setOnClickListener {
             var intent = Intent(this@BanSelectedActivity, OrderActivity::class.java)
@@ -71,7 +71,7 @@ class BanSelectedActivity : AppCompatActivity() {
                     for (it in snapshot.children){
                         val order = it.getValue(Order::class.java)
                         if (order?.id_ban == idBan){
-                            getMonAnInOrder(order?.id_monAn, order?.soLuong)
+                            getMonAnInOrder(order?.id_monAn, order?.soLuong, idBan)
                         }
                     }
                 }
@@ -82,7 +82,7 @@ class BanSelectedActivity : AppCompatActivity() {
         })
     }
 
-    private fun getMonAnInOrder(idMonan: String?, soLuong : Int?) {
+    private fun getMonAnInOrder(idMonan: String?, soLuong : Int?, idBan: String?) {
         dbRef = FirebaseDatabase.getInstance().getReference("MonAn")
         dbRef.orderByChild("id").equalTo(idMonan).addListenerForSingleValueEvent(object  : ValueEventListener{
             @SuppressLint("NotifyDataSetChanged")
@@ -93,6 +93,7 @@ class BanSelectedActivity : AppCompatActivity() {
                         listData.add(MonAn(monAn?.id, monAn?.tenMonAn, monAn?.tenLoaiMonAn, monAn?.gia, soLuong))
                         adapter.notifyDataSetChanged()
                         sum += (monAn?.gia.toString().toInt()) * soLuong!!
+                        updateTongTien(idBan, sum)
                         var formattedNumber = sum.toString().replace(Regex("(\\d)(?=(\\d{3})+\$)"), "$1,")
                         bind.tvTongtien.setText(formattedNumber)
                     }
@@ -104,11 +105,19 @@ class BanSelectedActivity : AppCompatActivity() {
         })
     }
 
+    private fun updateTongTien(idBan: String?, sum: Int) {
+        dbRef = FirebaseDatabase.getInstance().getReference("Ban").child(idBan.toString())
+        val newBanUpdates = HashMap<String, Any>()
+        newBanUpdates["tongtien"] = sum
+        dbRef.updateChildren(newBanUpdates)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             android.R.id.home ->{
                 finish()
                 var intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("tongtien", sum)
                 startActivity(intent)
                 return true
             }

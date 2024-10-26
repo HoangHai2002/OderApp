@@ -1,6 +1,7 @@
 package com.example.oderapp.Activity
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -29,6 +30,11 @@ class CategoryFood : AppCompatActivity() {
         enableEdgeToEdge()
         bind = ActivityCategoryFoodBinding.inflate(layoutInflater)
         setContentView(bind.root)
+
+        //Toolbar
+        setSupportActionBar(bind.toolbar1)
+        supportActionBar?.title = "Quản lý loại món"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         listCategory = mutableListOf()
         adapter = CategoryFoodAdapter(this, listCategory)
@@ -81,5 +87,14 @@ class CategoryFood : AppCompatActivity() {
             }
             alertDialog.show()
         }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return true
     }
 }

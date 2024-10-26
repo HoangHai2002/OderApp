@@ -15,14 +15,14 @@
         android:layout_height="wrap_content"/>
 
     <EditText
-        android:layout_marginBottom="20dp"
         android:id="@+id/edtCategoryName"
-        android:hint="category name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:hint="Loại món ăn"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp" />
     <Button
         android:id="@+id/addCategory"
-        android:text="thêm loại món"
+        android:text="Thêm loại món"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>
