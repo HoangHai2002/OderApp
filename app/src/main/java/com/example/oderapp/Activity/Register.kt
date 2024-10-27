@@ -35,21 +35,33 @@ class Register : AppCompatActivity() {
         bind.btnRegisterRegister.setOnClickListener {
             var username = bind.edtUsernameRegister.text.toString()
             var password = bind.edtPasswordRegister.text.toString()
+            var fullName = bind.edtFullName.text.toString()
             var confirmpassword = bind.edtConfirmPasswordRegister.text.toString()
 
-            if(username != "" && password != "" && confirmpassword != "" && password == confirmpassword){
+            if(username != "" && password != "" && confirmpassword != "" && password == confirmpassword && fullName != ""){
                 if (bind.rbtnNhanvien.isChecked){
-                    userRef = firebase.getReference("NhanVien")
-                    addNhanVien(username, password,userRef)
+                    val user = User(
+                        username,
+                        password,
+                        fullName
+                    )
+                    addMember(user)
                 }
                 //Thêm quản lý
                 if (bind.rbtnQuanly.isChecked){
-                    userRef = firebase.getReference("QuanLy")
-                    addNhanVien(username, password,userRef)
+                    val admin = User(
+                        username,
+                        password,
+                        fullName
+                    )
+                    addAdmin(admin)
                 }
             }else{
+                if (fullName == ""){
+                    bind.edtFullName.error = "vui lòng họ tên"
+                }
                 if (username == ""){
-                    bind.edtUsernameRegister.error = "Vui lòng nhập tên."
+                    bind.edtUsernameRegister.error = "Vui lòng nhập tên đăng nhập."
                 }
                 if (password == ""){
                     bind.edtPasswordRegister.error = "Vui lòng nhập mật khẩu."
@@ -114,6 +126,25 @@ class Register : AppCompatActivity() {
             }
 
         })
+    }
+    fun addMember(user: User){
+        val memberDatabase = FirebaseDatabase.getInstance().getReference("NhanVien")
+        val userID = memberDatabase.push().key!!
+        memberDatabase.child(userID).setValue(user).addOnSuccessListener {
+            Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT)
+        }
+    }
+    fun addAdmin(admin: User){
+
+        val memberDatabase = FirebaseDatabase.getInstance().getReference("QuanLy")
+        val userID = memberDatabase.push().key!!
+        memberDatabase.setValue(userID).addOnSuccessListener {
+            Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT)
+        }
     }
     fun addNhanVien(username: String, password : String, userRef : DatabaseReference) {
         userRef.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(object : ValueEventListener{

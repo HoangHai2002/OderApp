@@ -35,7 +35,7 @@ class MonAn_Adapter(var listMonAn : MutableList<MonAn>, var listener : itf_Click
         holder.gia.setText(formattedNumber)
         holder.edt_soLuong.setText(itemData.soLuong.toString())
 
-        var count =  holder.edt_soLuong.text.toString().toInt()
+        var count = holder.edt_soLuong.text.toString().toInt()
         if (count == 0){
             holder.imv_cong.visibility = View.GONE
             holder.imv_tru.visibility = View.GONE

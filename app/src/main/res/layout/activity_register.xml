@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:scrollbars="vertical"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true">
@@ -64,7 +65,38 @@
                     android:checked="true"
                     android:text="Nhân viên"/>
             </RadioGroup>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="họ và tên"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/layout_login">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/user"
+                    android:padding="10dp"
+                    android:layout_marginLeft="10dp"
+                    app:tint="#03A9F4"
+                    android:layout_gravity="center_vertical"/>
+                <EditText
+                    android:id="@+id/edtFullName"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:hint="Nhập tên đăng nhập"
+                    android:gravity="center_vertical"
+                    android:background="@null"
+                    android:paddingLeft="20dp"/>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/layout_gmail"
                 android:layout_width="match_parent"
@@ -81,7 +113,7 @@
                     android:textStyle="bold" />
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/layout_login">
@@ -120,7 +152,7 @@
                     android:layout_marginTop="10dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/layout_login">
@@ -176,7 +208,7 @@
                     android:layout_marginTop="10dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/layout_login">

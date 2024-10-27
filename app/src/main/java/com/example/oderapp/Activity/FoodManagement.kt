@@ -82,7 +82,7 @@ class FoodManagement : AppCompatActivity() {
         btnAddFood.setOnClickListener{
             if (idFood.text.toString().isEmpty()
                 || foodName.text.toString().isEmpty() ||
-                price.text.toString().isEmpty() || chooseCategory.text.toString().equals("chọn loại món")){
+                price.text.toString().isEmpty() || chooseCategory.text.toString().equals("Chọn loại món")){
                 Toast.makeText(this, "vui lòng nhập đầy đủ thông tin món ăn", Toast.LENGTH_LONG).show()
             }else{
                 mydata.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -90,8 +90,12 @@ class FoodManagement : AppCompatActivity() {
                         if (snapshot.exists()){
                             for(food in snapshot.children){
                                 val checkName = food.child("tenMonAn").getValue(String::class.java)
-                                if (food.key.equals(idFood.text.toString().trim()) || checkName.equals(foodName.text.toString().trim())){
-                                    Toast.makeText(applicationContext, "Món ăn đã tồn tại", Toast.LENGTH_LONG).show()
+                                if (food.key.equals(idFood.text.toString().trim())){
+                                    Toast.makeText(applicationContext, "Mã món ăn đã tồn tại", Toast.LENGTH_LONG).show()
+                                    return
+                                }
+                                if(checkName.equals(foodName.text.toString().trim())){
+                                    Toast.makeText(applicationContext, "tên món ăn không được trùng", Toast.LENGTH_LONG).show()
                                     return
                                 }
                             }

@@ -22,6 +22,7 @@ import com.example.oderapp.Interface.itf_UD_QLKVBan
 import com.example.oderapp.Model.KhuVucBan
 import com.example.oderapp.R
 import com.example.oderapp.databinding.ActivityMainBinding
+import com.example.quanlydiem.Preferences
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var listData: MutableList<KhuVucBan>
     lateinit var dbRef: DatabaseReference
     lateinit var toggle: ActionBarDrawerToggle
+    lateinit var preferences : Preferences
     var posselected : Int = 0
     var tenkv : String? = null
     var trangThaiBan  = "tatca"
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         bind = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bind.root)
-
+        preferences = Preferences(this)
         setSupportActionBar(bind.toolbar)
         bind.toolbar.title = ""
         toggle = ActionBarDrawerToggle(
@@ -61,6 +63,9 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.btn_logout -> {
                     Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, Login::class.java)
+                    startActivity(intent)
+                    preferences.logout()
                     true
                 }
 

@@ -2,11 +2,6 @@ package com.example.oderapp.Model
 
 class User(
     var username : String? = "",
-    var password : String? = ""
-) {
-
-
-
-
-
-}
+    var password : String? = "",
+    var fullName: String? = ""
+)

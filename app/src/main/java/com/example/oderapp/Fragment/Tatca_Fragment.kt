@@ -61,10 +61,12 @@ class Tatca_Fragment : Fragment() {
                 if(itemData.trangThai == false){
                     var intent = Intent(context, OrderActivity::class.java)
                     intent.putExtra("id", itemData.id)
+                    intent.putExtra("tenBan", itemData.tenBan)
                     startActivity(intent)
                 }else{
                     var intent = Intent(context, BanSelectedActivity::class.java)
                     intent.putExtra("id", itemData.id)
+                    intent.putExtra("tenBan", itemData.tenBan)
                     startActivity(intent)
                 }
             }
