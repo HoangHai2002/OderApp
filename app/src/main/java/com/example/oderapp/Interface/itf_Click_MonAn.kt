@@ -5,7 +5,6 @@ import com.example.oderapp.Model.LoaiMonAn
 import com.example.oderapp.Model.MonAn
 
 interface itf_Click_MonAn {
-    fun onClickMonAn(itemData : MonAn, pos : Int)
-    fun onClickCong(itemData : MonAn, pos : Int)
-    fun onClickTru(itemData : MonAn, pos : Int)
+    fun onClickMonAn(itemData : MonAn, gia : Int, count : Int)
+    fun onClickXoa(id : String?, pos : Int)
 }

@@ -17,6 +17,7 @@ import com.example.oderapp.Model.MonAn
 import com.example.oderapp.Model.Order
 import com.example.oderapp.R
 import com.example.oderapp.databinding.ActivityOrderBinding
+import com.example.quanlydiem.Preferences
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -32,12 +33,16 @@ class OrderActivity : AppCompatActivity() {
     lateinit var dbRef: DatabaseReference
     lateinit var listLoaiMonAn: MutableList<LoaiMonAn>
     lateinit var adapter: LoaiMonAn_Adapter
+
+    lateinit var preferences : Preferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         bind = ActivityOrderBinding.inflate(layoutInflater)
         setContentView(bind.root)
 
+        preferences = Preferences(this@OrderActivity)
         var id = intent.getStringExtra("id")
         getTenBan_KV(id)
 
@@ -149,7 +154,8 @@ class OrderActivity : AppCompatActivity() {
                 if (check) {
                     dbRef = FirebaseDatabase.getInstance().getReference("Order")
                     val newRef = dbRef.push().key!!
-                    val newOrder = Order(newRef, idBan, monAn.id, "", monAn.soLuong, "")
+
+                    val newOrder = Order(newRef, idBan, monAn.id, preferences.getFullName(), monAn.soLuong, "")
                     dbRef.child(newRef).setValue(newOrder)
                 }
             }

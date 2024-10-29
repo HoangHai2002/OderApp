@@ -58,7 +58,6 @@ class MonAn_Adapter(var listMonAn : MutableList<MonAn>, var listener : itf_Click
                 itemData.gia.toString().toInt()
             )
             holder.edt_soLuong.setText(count.toString())
-            listener.onClickMonAn(itemData, position)
         }
         holder.imv_cong.setOnClickListener {
             ++count
@@ -69,7 +68,6 @@ class MonAn_Adapter(var listMonAn : MutableList<MonAn>, var listener : itf_Click
                 itemData.gia.toString().toInt()
             )
             holder.edt_soLuong.setText(count.toString())
-            listener.onClickCong(itemData, position)
         }
         holder.imv_tru.setOnClickListener {
             if(count > 0){
@@ -82,7 +80,6 @@ class MonAn_Adapter(var listMonAn : MutableList<MonAn>, var listener : itf_Click
                 itemData.gia.toString().toInt()
             )
             holder.edt_soLuong.setText(count.toString())
-            listener.onClickTru(itemData, position)
         }
     }
     fun setSoluong(count : Int, id : String, tenMonAn : String, tenLoaiMonAn : String, gia : Int){

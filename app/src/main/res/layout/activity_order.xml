@@ -62,7 +62,6 @@
             android:padding="5dp"
             android:src="@drawable/search" />
     </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rc_loaiMonAn"
         android:layout_width="match_parent"
@@ -71,15 +70,31 @@
         android:paddingEnd="16dp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
-    <FrameLayout
-        android:id="@+id/layout_monAn"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="24dp"
+        android:layout_height="600dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_xacnhan"
         app:layout_constraintTop_toBottomOf="@+id/rc_loaiMonAn"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintVertical_bias="0"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:id="@+id/layout_monAn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="24dp"
+                tools:layout_editor_absoluteX="16dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 
     <Button
         android:id="@+id/btn_xacnhan"

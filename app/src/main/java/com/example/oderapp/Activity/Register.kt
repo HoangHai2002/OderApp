@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -17,35 +18,44 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlin.properties.Delegates
 
 class Register : AppCompatActivity() {
     lateinit var userRef : DatabaseReference
     lateinit var firebase : FirebaseDatabase
     lateinit var bind : ActivityRegisterBinding
+    var checkPassWordLength : Boolean = false
+    var checkPassWordStyle : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         bind = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(bind.root)
-        firebase = FirebaseDatabase.getInstance()
+
+
+
+
+        val nhanVienRef = FirebaseDatabase.getInstance().getReference("NhanVien")
+        val quanLyRef = FirebaseDatabase.getInstance().getReference("QuanLy")
 
         bind.tvRedirectLoginRegister.setOnClickListener {
             finish()
         }
         bind.btnRegisterRegister.setOnClickListener {
-            var username = bind.edtUsernameRegister.text.toString()
-            var password = bind.edtPasswordRegister.text.toString()
-            var fullName = bind.edtFullName.text.toString()
-            var confirmpassword = bind.edtConfirmPasswordRegister.text.toString()
-
-            if(username != "" && password != "" && confirmpassword != "" && password == confirmpassword && fullName != ""){
+            val username = bind.edtUsernameRegister.text.toString()
+            val password = bind.edtPasswordRegister.text.toString()
+            val fullName = bind.edtFullName.text.toString()
+            val confirmpassword = bind.edtConfirmPasswordRegister.text.toString()
+            if(username != "" && password != "" && confirmpassword != "" &&
+                password == confirmpassword && fullName != "" &&
+                checkPassWordLength && checkPassWordStyle){
                 if (bind.rbtnNhanvien.isChecked){
                     val user = User(
                         username,
                         password,
                         fullName
                     )
-                    addMember(user)
+                    themNguoiDung(user, nhanVienRef)
                 }
                 //Thêm quản lý
                 if (bind.rbtnQuanly.isChecked){
@@ -54,11 +64,11 @@ class Register : AppCompatActivity() {
                         password,
                         fullName
                     )
-                    addAdmin(admin)
+                    themNguoiDung(admin, quanLyRef)
                 }
             }else{
                 if (fullName == ""){
-                    bind.edtFullName.error = "vui lòng họ tên"
+                    bind.edtFullName.error = "Vui lòng nhập họ tên"
                 }
                 if (username == ""){
                     bind.edtUsernameRegister.error = "Vui lòng nhập tên đăng nhập."
@@ -72,9 +82,11 @@ class Register : AppCompatActivity() {
                 if (password != confirmpassword){
                     bind.edtConfirmPasswordRegister.error = "Xác nhận mật khẩu không đúng."
                 }
+                if (!checkPassWordStyle && !checkPassWordLength){
+                    bind.edtPasswordRegister.error = "Mật khẩu không hợp lệ."
+                }
 
             }
-
 
         }
         bind.edtPasswordRegister.setOnFocusChangeListener { view, b ->
@@ -87,6 +99,7 @@ class Register : AppCompatActivity() {
             }
         }
         bind.edtPasswordRegister.addTextChangedListener(object : TextWatcher{
+
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
@@ -100,6 +113,7 @@ class Register : AppCompatActivity() {
                     bind.tvCanhbao1.setTextColor(ContextCompat.getColor(this@Register,
                         R.color.green
                     ))
+                    checkPassWordLength = true
                 }else{
                     bind.tvCanhbao1.setTextColor(ContextCompat.getColor(this@Register,
                         R.color.textgrey
@@ -117,6 +131,7 @@ class Register : AppCompatActivity() {
                     bind.tvCanhbao2.setTextColor(ContextCompat.getColor(this@Register,
                         R.color.green
                     ))
+                    checkPassWordStyle = true
                 }else{
                     bind.tvCanhbao2.setTextColor(ContextCompat.getColor(this@Register,
                         R.color.textgrey
@@ -132,6 +147,7 @@ class Register : AppCompatActivity() {
         val userID = memberDatabase.push().key!!
         memberDatabase.child(userID).setValue(user).addOnSuccessListener {
             Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+
         }.addOnFailureListener {
             Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT)
         }
@@ -140,33 +156,34 @@ class Register : AppCompatActivity() {
 
         val memberDatabase = FirebaseDatabase.getInstance().getReference("QuanLy")
         val userID = memberDatabase.push().key!!
-        memberDatabase.setValue(userID).addOnSuccessListener {
+        memberDatabase.child(userID).setValue(admin).addOnSuccessListener {
             Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+            finish()
         }.addOnFailureListener {
             Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT)
         }
     }
-    fun addNhanVien(username: String, password : String, userRef : DatabaseReference) {
-        userRef.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(object : ValueEventListener{
+    fun themNguoiDung(user : User, userRef : DatabaseReference) {
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(datasnapshot: DataSnapshot) {
                 var check : Boolean = true
                 for (snapshot in datasnapshot.children){
-                    var user = snapshot.getValue(User::class.java)
-                    if (user != null && user.username == username){
+                    var newUser = snapshot.getValue(User::class.java)
+                    Log.d("11111111111111111111", "${newUser?.fullName} , ${user?.fullName}")
+                    if (newUser != null && newUser.fullName == user.fullName){
+                        Toast.makeText(this@Register, "Tên người dùng đã tồn tại.", Toast.LENGTH_SHORT).show()
+                        check = false
+                        return
+                    }
+                    if (newUser != null && newUser.username == user.username){
                         Toast.makeText(this@Register, "Tên đăng nhập đã tồn tại.", Toast.LENGTH_SHORT).show()
                         check = false
                         return
                     }
                 }
                 if (check){
-                    // Tạo một nút con mới bằng cách sử dụng push() để tạo id ngẫu nhiên cho người dùng
                     val newUserRef = userRef.push().key!!
-
-                    //Tạo đối tượng
-                    var user1 = User(username, password)
-
-                    //truy cập đến id vừa tạo và đặt giá trị = đối tượng user1
-                    userRef.child(newUserRef).setValue(user1).addOnCompleteListener {
+                    userRef.child(newUserRef).setValue(user).addOnCompleteListener {
                         Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
                         finish()
                     }.addOnFailureListener {
@@ -175,7 +192,6 @@ class Register : AppCompatActivity() {
                 }
             }
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
     }

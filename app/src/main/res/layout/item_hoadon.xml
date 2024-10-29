@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_tenmonan_hoadon"
+            android:layout_width="0dp"
+            android:background="@drawable/table"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ba chi bo mi tom"
+            android:textSize="18dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv_gia_hoadon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:text="300000"
+            android:textSize="18dp"
+            android:background="@drawable/table"
+            android:gravity="center" />
+        <TextView
+            android:id="@+id/tv_soluong_hoadon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="12"
+            android:textSize="18dp"
+            android:background="@drawable/table"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/tv_tong_hoadon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/table"
+            android:text="1000000"
+            android:textSize="18dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+</LinearLayout>

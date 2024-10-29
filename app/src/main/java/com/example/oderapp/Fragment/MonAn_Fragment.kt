@@ -67,18 +67,9 @@ class MonAn_Fragment : Fragment() {
         }
 
         var listener = object : itf_Click_MonAn {
-            override fun onClickMonAn(itemData: MonAn, pos: Int) {
-
+            override fun onClickMonAn(itemData: MonAn, gia: Int, count: Int) {
+                TODO("Not yet implemented")
             }
-
-            override fun onClickCong(itemData: MonAn, pos: Int) {
-
-            }
-
-            override fun onClickTru(itemData: MonAn, pos: Int) {
-
-            }
-
         }
         adapter = MonAn_Adapter(listMonAn, listener)
         rc_monAn.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

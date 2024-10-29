@@ -10,6 +10,5 @@ import com.example.oderapp.R
 
 class QlBan_ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
     var tenBan = itemView.findViewById<TextView>(R.id.tenban)
-    var update = itemView.findViewById<ImageView>(R.id.imv_update_qlban)
-    var delete = itemView.findViewById<ImageView>(R.id.imv_delete_qlban)
+    var imvOptionQLB = itemView.findViewById<ImageView>(R.id.imvOptionQLB)
 }

@@ -38,13 +38,13 @@ class Login : AppCompatActivity() {
                     userRef = firebase.getReference("NhanVien")
                     var username = bind.edtUsernameLogin.text.toString()
                     var password = bind.edtPasswordLogin.text.toString()
-                    checkUser(username, password, userRef)
+                    checkUser(username, password, userRef, false)
                 }
                 if (bind.rbtnQuanly.isChecked){
                     userRef = firebase.getReference("QuanLy")
                     var username = bind.edtUsernameLogin.text.toString()
                     var password = bind.edtPasswordLogin.text.toString()
-                    checkUser(username, password, userRef)
+                    checkUser(username, password, userRef, true)
                 }
             }else{
                 if (bind.edtUsernameLogin.text.toString() == ""){
@@ -62,17 +62,16 @@ class Login : AppCompatActivity() {
         }
 
     }
-    fun checkUser(username : String, password : String, userRef : DatabaseReference){
+    fun checkUser(username : String, password : String, userRef : DatabaseReference, isAdmin : Boolean){
         userRef.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                Log.d("hieu", "hdfh")
                 for (snapshot in dataSnapshot.children) {
                     val user = snapshot.getValue(User::class.java)
                     if (user != null && user.username == username && user.password == password) {
                         // Đăng nhập thành công
                         Toast.makeText(applicationContext, "Đăng nhập thành công", Toast.LENGTH_SHORT).show()
-                        preferences.savelogin(user.fullName!!, false)
+                        preferences.savelogin(user.fullName!!, isAdmin)
                         var intent = Intent(this@Login, MainActivity::class.java)
                         startActivity(intent)
                         return

@@ -8,6 +8,10 @@
         android:title="Quay về giao diện cũ"
         android:icon="@drawable/back2"/>
     <item
+        android:id="@+id/btn_edituser"
+        android:title="Chỉnh sửa thông tin cá nhân"
+        android:icon="@drawable/user"/>
+    <item
         android:id="@+id/btn_qlKhuVucBan"
         android:title="Quản lý khu vực bàn"
         android:icon="@drawable/kvban"/>
@@ -23,6 +27,10 @@
         android:id="@+id/categoryManagement"
         android:title="Quản lý loại món"
         android:icon="@drawable/drink"/>
+    <item
+        android:id="@+id/btn_thanhtoan"
+        android:title="Lịch sử hanh toán"
+        android:icon="@drawable/dollar"/>
     <item
         android:id="@+id/btn_logout"
         android:title="Đăng xuất"

@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class Tatca_Fragment : Fragment() {
+class HienThiBan_Fragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
@@ -121,7 +121,7 @@ class Tatca_Fragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            Tatca_Fragment().apply {
+            HienThiBan_Fragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

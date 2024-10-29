@@ -5,17 +5,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.KhuVucBanActivity"
+    tools:context=".Activity.ThanhToanActivity"
     android:fitsSystemWindows="true">
-
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:background="#5C93E2"
-        android:navigationIcon="@drawable/back2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,10 +22,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="740dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar1"
-        app:layout_constraintVertical_bias="0"
-        tools:ignore="MissingConstraints">
+        android:layout_height="550dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,23 +32,13 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rc_qlkvban"
+                android:id="@+id/rc_thanhtoan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="90dp"/>
-
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/imv_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/imv"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/icon_add" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.oderapp.Fragment
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -75,7 +76,7 @@ class QlyBan_Fragment : Fragment() {
             }
         }
         listBan = mutableListOf()
-        adapterBan = QlBan_Adapter(listBan, listener)
+        adapterBan = QlBan_Adapter(listBan, listener, requireContext())
         rcTatca_qlBan.layoutManager = LinearLayoutManager(context,  LinearLayoutManager.VERTICAL, false)
         rcTatca_qlBan.adapter = adapterBan
 
@@ -143,7 +144,7 @@ class QlyBan_Fragment : Fragment() {
     }
     fun delete(id : String, tenBan : String){
         val build = AlertDialog.Builder(requireContext())
-        build.setTitle("Xác nhận xóa $tenBan?")
+        build.setTitle("Xác nhận xóa bàn $tenBan?")
         build.setPositiveButton("OK"){ dialog, which ->
             xoaBan(id, tenBan)
             dialog.dismiss()

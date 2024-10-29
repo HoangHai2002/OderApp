@@ -69,13 +69,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="họ và tên"
+                android:text="Họ và tên"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/layout_login">
@@ -92,7 +92,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="Nhập tên đăng nhập"
+                    android:hint="Nhập tên người dùng"
                     android:gravity="center_vertical"
                     android:background="@null"
                     android:paddingLeft="20dp"/>
@@ -113,7 +113,7 @@
                     android:textStyle="bold" />
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/layout_login">
@@ -152,7 +152,7 @@
                     android:layout_marginTop="10dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/layout_login">
@@ -208,7 +208,7 @@
                     android:layout_marginTop="10dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/layout_login">

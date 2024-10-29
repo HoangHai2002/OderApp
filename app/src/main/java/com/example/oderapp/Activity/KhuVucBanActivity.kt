@@ -46,7 +46,7 @@ class KhuVucBanActivity : AppCompatActivity() {
 
         //Binding data
         listKvban = mutableListOf()
-        adapter = QlKhuvucban_Adapter(listKvban, listener)
+        adapter = QlKhuvucban_Adapter(listKvban, listener, this@KhuVucBanActivity)
         bind.rcQlkvban.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         bind.rcQlkvban.adapter = adapter
@@ -167,7 +167,7 @@ class KhuVucBanActivity : AppCompatActivity() {
 
     fun delete(id : String, name : String){
         val build = AlertDialog.Builder(this)
-        build.setTitle("Xác nhận xóa $name?")
+        build.setTitle("Xác nhận xóa khu $name?")
         build.setPositiveButton("OK"){ dialog, which ->
             xoaKV(id, name)
             listKvban.removeIf { it.id == id }

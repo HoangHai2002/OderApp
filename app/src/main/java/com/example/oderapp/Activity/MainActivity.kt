@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -15,11 +16,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oderapp.Adapter.Khuvucban_Adapter
-import com.example.oderapp.Fragment.Sudung_Fragment
-import com.example.oderapp.Fragment.Tatca_Fragment
+import com.example.oderapp.Fragment.HienThiBan_Fragment
 import com.example.oderapp.Interface.itf_Click_khuVucBan
-import com.example.oderapp.Interface.itf_UD_QLKVBan
 import com.example.oderapp.Model.KhuVucBan
+import com.example.oderapp.Model.ThanhToan
 import com.example.oderapp.R
 import com.example.oderapp.databinding.ActivityMainBinding
 import com.example.quanlydiem.Preferences
@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         bind = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bind.root)
         preferences = Preferences(this)
+        Toast.makeText(this@MainActivity, "${preferences.isAdmin()}", Toast.LENGTH_SHORT).show()
         setSupportActionBar(bind.toolbar)
         bind.toolbar.title = ""
         toggle = ActionBarDrawerToggle(
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
             R.string.open,
             R.string.close
         )
+
         bind.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -94,6 +96,14 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this, CategoryFood::class.java)
                     startActivity(intent)
                 }
+                R.id.btn_edituser ->{
+                    val intent = Intent(this, ThanhToanActivity::class.java)
+                    startActivity(intent)
+                }
+                R.id.btn_thanhtoan ->{
+                    val intent = Intent(this, ThanhToanActivity::class.java)
+                    startActivity(intent)
+                }
             }
             true
         }
@@ -107,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     tenkv = null
                 }
-                val fragment = Tatca_Fragment()
+                val fragment = HienThiBan_Fragment()
                 val bundle = Bundle()
                 bundle.putString("a", tenkv)
                 bundle.putString("trangThaiBan", trangThaiBan)
@@ -126,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         bind.rcKhuvucban.adapter = adapter
 
         //Chạy Fragment
-        replaceFragment(Tatca_Fragment())
+        replaceFragment(HienThiBan_Fragment())
 
         //Hiện thanh line
         bind.layoutTatca.setOnClickListener {
@@ -135,7 +145,7 @@ class MainActivity : AppCompatActivity() {
             bind.line2.visibility = View.GONE
             bind.line3.visibility = View.GONE
 
-            val fragment = Tatca_Fragment()
+            val fragment = HienThiBan_Fragment()
             val bundle = Bundle()
             bundle.putString("a", tenkv)
             bundle.putString("trangThaiBan", trangThaiBan)
@@ -148,7 +158,7 @@ class MainActivity : AppCompatActivity() {
             bind.line2.visibility = View.VISIBLE
             bind.line3.visibility = View.GONE
 
-            val fragment = Tatca_Fragment()
+            val fragment = HienThiBan_Fragment()
             val bundle = Bundle()
             bundle.putString("a", tenkv)
             bundle.putString("trangThaiBan", trangThaiBan)
@@ -161,16 +171,24 @@ class MainActivity : AppCompatActivity() {
             bind.line2.visibility = View.GONE
             bind.line3.visibility = View.VISIBLE
 
-            val fragment = Tatca_Fragment()
+            val fragment = HienThiBan_Fragment()
             val bundle = Bundle()
             bundle.putString("a", tenkv)
             bundle.putString("trangThaiBan", trangThaiBan)
             fragment.arguments = bundle
             replaceFragment(fragment)
         }
-
+        var preferences = Preferences(this)
+        //Ten nguoi dung
+        changeNavHeaderText("${preferences.getFullName()}")
     }
+    private fun changeNavHeaderText(newText: String) {
+        // Lấy reference đến NavHeader View
+        val headerView = bind.navView.getHeaderView(0)
 
+        // Thay đổi text của TextView trong NavHeader
+        headerView.findViewById<TextView>(R.id.tv_nav).text = newText
+    }
     private fun themKV(tenKv: String) {
         dbRef = FirebaseDatabase.getInstance().getReference("KhuVucBan")
         dbRef.orderByChild("name").equalTo(tenKv).addListenerForSingleValueEvent(object : ValueEventListener {
