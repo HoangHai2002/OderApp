@@ -43,6 +43,7 @@ class BanSelectedActivity : AppCompatActivity() {
     lateinit var adapter : BanSelected_Adapter
     val newMonAnThanhToan : MutableList<MonAnThanhToan> = mutableListOf()
     lateinit var preferences : Preferences
+    lateinit var id : String
 
     var sum : Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +60,7 @@ class BanSelectedActivity : AppCompatActivity() {
 
         preferences = Preferences(this@BanSelectedActivity)
 
-        val id = intent.getStringExtra("id")
+        id = intent.getStringExtra("id").toString()
         getTenBan(id)
 
         val listener = object : itf_Click_MonAn {
@@ -88,7 +89,7 @@ class BanSelectedActivity : AppCompatActivity() {
                 val newKey1 = thanhtoanRef.push().key!!
                 val monAnThanhToan : MutableList<MonAnThanhToan> = mutableListOf()
                 val thanhToan = ThanhToan(newKey, "","", "", 0, monAnThanhToan, "", "")
-                
+
                 CoroutineScope(Dispatchers.Main).launch {
                     thanhtoanRef.child(newKey).setValue(thanhToan)
                     checkIdBanThanhToan(id, sum, newKey)
@@ -342,12 +343,37 @@ class BanSelectedActivity : AppCompatActivity() {
                 return true
             }
             R.id.btn_item2 ->{
-                Toast.makeText(this, "Item2", Toast.LENGTH_SHORT).show()
+                huyBan(id)
             return true
         }
 
         }
         return true
+    }
+
+    private fun huyBan(id: String) {
+        dbRef = FirebaseDatabase.getInstance().getReference("Order")
+        dbRef.orderByChild("id_ban").equalTo(id).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    for(it in snapshot.children){
+                        val order = it.getValue(Order::class.java)
+                        val orderRef = FirebaseDatabase.getInstance().getReference("Order").child(order?.id.toString())
+                        orderRef.removeValue()
+                        resetBan(id)
+                        val  intent = Intent(this@BanSelectedActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     private fun getTenBan(id: String?) {
