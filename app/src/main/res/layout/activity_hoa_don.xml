@@ -164,7 +164,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:text="Số luợng"
+            android:text="Số lượng"
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_gravity="center_vertical"

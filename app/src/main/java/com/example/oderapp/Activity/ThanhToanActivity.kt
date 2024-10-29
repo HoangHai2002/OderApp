@@ -65,7 +65,7 @@ class ThanhToanActivity : AppCompatActivity() {
                 listData.clear()
                 for (dataSnapshot in snapshot.children) {
                     val thanhToan = dataSnapshot.getValue(ThanhToan::class.java)
-                        listData.add(thanhToan!!)
+                        listData.add(0, thanhToan!!)
                         adapter.notifyDataSetChanged()
                 }
             }

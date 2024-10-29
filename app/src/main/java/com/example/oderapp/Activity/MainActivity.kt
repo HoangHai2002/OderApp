@@ -23,6 +23,7 @@ import com.example.oderapp.Model.ThanhToan
 import com.example.oderapp.R
 import com.example.oderapp.databinding.ActivityMainBinding
 import com.example.quanlydiem.Preferences
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -35,17 +36,16 @@ class MainActivity : AppCompatActivity() {
     lateinit var listData: MutableList<KhuVucBan>
     lateinit var dbRef: DatabaseReference
     lateinit var toggle: ActionBarDrawerToggle
-    lateinit var preferences : Preferences
-    var posselected : Int = 0
-    var tenkv : String? = null
-    var trangThaiBan  = "tatca"
+    lateinit var preferences: Preferences
+    var posselected: Int = 0
+    var tenkv: String? = null
+    var trangThaiBan = "tatca"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         bind = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bind.root)
         preferences = Preferences(this)
-        Toast.makeText(this@MainActivity, "${preferences.isAdmin()}", Toast.LENGTH_SHORT).show()
         setSupportActionBar(bind.toolbar)
         bind.toolbar.title = ""
         toggle = ActionBarDrawerToggle(
@@ -56,9 +56,25 @@ class MainActivity : AppCompatActivity() {
             R.string.close
         )
 
+
+
         bind.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+        val navigationView: NavigationView = findViewById(R.id.nav_view)
+        val menu: Menu = navigationView.menu
+        val btn_qlKhuVucBan: MenuItem? = menu.findItem(R.id.btn_qlKhuVucBan)
+        val quanLyMonAn: MenuItem? = menu.findItem(R.id.quanLyMonAn)
+        val btn_quanLyBan: MenuItem? = menu.findItem(R.id.btn_quanLyBan)
+        val categoryManagement: MenuItem? = menu.findItem(R.id.categoryManagement)
+        val btn_thanhtoan: MenuItem? = menu.findItem(R.id.btn_thanhtoan)
+        if (!preferences.isAdmin()) {
+            btn_qlKhuVucBan?.isVisible = false
+            quanLyMonAn?.isVisible = false
+            btn_quanLyBan?.isVisible = false
+            categoryManagement?.isVisible = false
+            btn_thanhtoan?.isVisible = false
+        }
 
         // bắt sự kiện click draw
         bind.navView.setNavigationItemSelectedListener {
@@ -76,6 +92,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+
                 R.id.btn_quanLyBan -> {
                     var intent = Intent(this@MainActivity, BanActivity::class.java)
                     startActivity(intent)
@@ -88,19 +105,23 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-                R.id.quanLyMonAn ->{
+
+                R.id.quanLyMonAn -> {
                     val intent = Intent(this, FoodManagement::class.java)
                     startActivity(intent)
                 }
-                R.id.categoryManagement ->{
+
+                R.id.categoryManagement -> {
                     val intent = Intent(this, CategoryFood::class.java)
                     startActivity(intent)
                 }
-                R.id.btn_edituser ->{
+
+                R.id.btn_edituser -> {
                     val intent = Intent(this, ThanhToanActivity::class.java)
                     startActivity(intent)
                 }
-                R.id.btn_thanhtoan ->{
+
+                R.id.btn_thanhtoan -> {
                     val intent = Intent(this, ThanhToanActivity::class.java)
                     startActivity(intent)
                 }
@@ -109,12 +130,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Gửi tên khu vực qua Fragment để hiển thị bàn tương ứng với khu vực
-        val listener = object :itf_Click_khuVucBan{
+        val listener = object : itf_Click_khuVucBan {
             override fun onClick(itemData: KhuVucBan, pos: Int, posSelected: Int) {
                 posselected = posSelected
-                if(posselected != RecyclerView.NO_POSITION){
+                if (posselected != RecyclerView.NO_POSITION) {
                     tenkv = itemData.name.toString()
-                }else{
+                } else {
                     tenkv = null
                 }
                 val fragment = HienThiBan_Fragment()
@@ -132,14 +153,15 @@ class MainActivity : AppCompatActivity() {
         //lấy dữ liệu từ kvban add vào listData
         getDataKhuVucBan()
         adapter = Khuvucban_Adapter(listData, listener)
-        bind.rcKhuvucban.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        bind.rcKhuvucban.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         bind.rcKhuvucban.adapter = adapter
 
         //Chạy Fragment
         replaceFragment(HienThiBan_Fragment())
 
         //Hiện thanh line
-        bind.layoutTatca.setOnClickListener {
+        bind.layoutTatca.setOnClickListener{
             trangThaiBan = "tatca"
             bind.line1.visibility = View.VISIBLE
             bind.line2.visibility = View.GONE
@@ -152,7 +174,7 @@ class MainActivity : AppCompatActivity() {
             fragment.arguments = bundle
             replaceFragment(fragment)
         }
-        bind.layoutSudung.setOnClickListener {
+        bind.layoutSudung.setOnClickListener{
             trangThaiBan = "sudung"
             bind.line1.visibility = View.GONE
             bind.line2.visibility = View.VISIBLE
@@ -165,7 +187,7 @@ class MainActivity : AppCompatActivity() {
             fragment.arguments = bundle
             replaceFragment(fragment)
         }
-        bind.layoutControng.setOnClickListener {
+        bind.layoutControng.setOnClickListener{
             trangThaiBan = "controng"
             bind.line1.visibility = View.GONE
             bind.line2.visibility = View.GONE
@@ -178,10 +200,12 @@ class MainActivity : AppCompatActivity() {
             fragment.arguments = bundle
             replaceFragment(fragment)
         }
+
         var preferences = Preferences(this)
         //Ten nguoi dung
         changeNavHeaderText("${preferences.getFullName()}")
     }
+
     private fun changeNavHeaderText(newText: String) {
         // Lấy reference đến NavHeader View
         val headerView = bind.navView.getHeaderView(0)
@@ -189,40 +213,52 @@ class MainActivity : AppCompatActivity() {
         // Thay đổi text của TextView trong NavHeader
         headerView.findViewById<TextView>(R.id.tv_nav).text = newText
     }
+
     private fun themKV(tenKv: String) {
         dbRef = FirebaseDatabase.getInstance().getReference("KhuVucBan")
-        dbRef.orderByChild("name").equalTo(tenKv).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var check: Boolean = true
-                for (it in snapshot.children) {
-                    var kvban = it.getValue(KhuVucBan::class.java)
-                    if (kvban != null && kvban.name == tenKv) {
-                        Toast.makeText(this@MainActivity, "Khu vực đã tồn tại", Toast.LENGTH_SHORT).show()
-                        check = false
-                        return
+        dbRef.orderByChild("name").equalTo(tenKv)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var check: Boolean = true
+                    for (it in snapshot.children) {
+                        var kvban = it.getValue(KhuVucBan::class.java)
+                        if (kvban != null && kvban.name == tenKv) {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Khu vực đã tồn tại",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            check = false
+                            return
+                        }
+                    }
+
+                    if (check) {
+                        // Tạo một nút con mới bằng cách sử dụng push() để tạo id ngẫu nhiên cho người dùng
+                        val newRef = dbRef.push().key!!
+
+                        //Tạo đối tượng
+                        var newKv = KhuVucBan(newRef, tenKv)
+
+                        //truy cập đến id vừa tạo và đặt giá trị = đối tượng user1
+                        dbRef.child(newRef).setValue(newKv).addOnCompleteListener {
+                            Toast.makeText(this@MainActivity, "Thêm thành công", Toast.LENGTH_SHORT)
+                                .show()
+                        }.addOnFailureListener {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Thêm không thành công",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
 
-                if (check){
-                    // Tạo một nút con mới bằng cách sử dụng push() để tạo id ngẫu nhiên cho người dùng
-                    val newRef = dbRef.push().key!!
-
-                    //Tạo đối tượng
-                    var newKv = KhuVucBan(newRef, tenKv)
-
-                    //truy cập đến id vừa tạo và đặt giá trị = đối tượng user1
-                    dbRef.child(newRef).setValue(newKv).addOnCompleteListener {
-                        Toast.makeText(this@MainActivity, "Thêm thành công", Toast.LENGTH_SHORT).show()
-                    }.addOnFailureListener {
-                        Toast.makeText(this@MainActivity, "Thêm không thành công", Toast.LENGTH_SHORT).show()
-                    }
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@MainActivity, error.message, Toast.LENGTH_SHORT).show()
                 }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity, error.message, Toast.LENGTH_SHORT).show()
-            }
-        })
+            })
     }
 
     private fun dialogThemKv() {
@@ -261,6 +297,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show()
                 return true
             }
+
             R.id.btn_alert -> {
                 Toast.makeText(this, "Alert", Toast.LENGTH_SHORT).show()
             }
@@ -268,7 +305,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-     fun getDataKhuVucBan() {
+    fun getDataKhuVucBan() {
         dbRef = FirebaseDatabase.getInstance().getReference("KhuVucBan")
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

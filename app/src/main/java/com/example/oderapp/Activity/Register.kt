@@ -149,7 +149,7 @@ class Register : AppCompatActivity() {
             Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
 
         }.addOnFailureListener {
-            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT)
+            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
         }
     }
     fun addAdmin(admin: User){
@@ -160,7 +160,7 @@ class Register : AppCompatActivity() {
             Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
             finish()
         }.addOnFailureListener {
-            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT)
+            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
         }
     }
     fun themNguoiDung(user : User, userRef : DatabaseReference) {
@@ -169,7 +169,7 @@ class Register : AppCompatActivity() {
                 var check : Boolean = true
                 for (snapshot in datasnapshot.children){
                     var newUser = snapshot.getValue(User::class.java)
-                    Log.d("11111111111111111111", "${newUser?.fullName} , ${user?.fullName}")
+                    Log.d("11111111111111111111", "${newUser?.fullName} , ${user.fullName}")
                     if (newUser != null && newUser.fullName == user.fullName){
                         Toast.makeText(this@Register, "Tên người dùng đã tồn tại.", Toast.LENGTH_SHORT).show()
                         check = false

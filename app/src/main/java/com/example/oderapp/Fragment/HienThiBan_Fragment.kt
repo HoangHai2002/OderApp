@@ -44,19 +44,40 @@ class HienThiBan_Fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment_tacca_, container, false)
-        var rcTatca = view.findViewById<RecyclerView>(R.id.rc_tatca)
-        var tenKhuVuc = arguments?.getString("a")
+        val view = inflater.inflate(R.layout.fragment_tacca_, container, false)
+        val rcTatca = view.findViewById<RecyclerView>(R.id.rc_tatca)
+        val tenKhuVuc = arguments?.getString("a")
+        val trangThaiBan = arguments?.getString("trangThaiBan")
         listBan = mutableListOf()
-        if(tenKhuVuc == null){
-            listBan.clear()
-            getDataBan()
-        }else{
-            listBan.clear()
-            getBan(tenKhuVuc)
+        if (trangThaiBan == "tatca" || trangThaiBan == null){
+            if(tenKhuVuc == null){
+                listBan.clear()
+                getDataBan()
+            }else{
+                listBan.clear()
+                getBan(tenKhuVuc.toString())
+            }
+        }
+        if (trangThaiBan == "sudung"){
+            if(tenKhuVuc == null){
+                listBan.clear()
+                getAllBanSuDung()
+            }else{
+                listBan.clear()
+                getBanSuDungTheoKhu(tenKhuVuc.toString())
+            }
+        }
+        if (trangThaiBan == "controng"){
+            if(tenKhuVuc == null){
+                listBan.clear()
+                getAllBanConTrong()
+            }else{
+                listBan.clear()
+                getBanConTrongTheoKhu(tenKhuVuc.toString())
+            }
         }
 
-        var listener = object : itf_Click_Ban{
+        val listener = object : itf_Click_Ban{
             override fun onClick(itemData: Ban, pos: Int) {
                 if(itemData.trangThai == false){
                     var intent = Intent(context, OrderActivity::class.java)
@@ -78,7 +99,77 @@ class HienThiBan_Fragment : Fragment() {
 
         return view
     }
+    private fun getBanConTrongTheoKhu(tenKhuVuc: String) {
+        var dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Ban")
+        dbRef.orderByChild("tenKhuVuc").equalTo(tenKhuVuc).addListenerForSingleValueEvent(object : ValueEventListener{
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (it in snapshot.children){
+                    var ban = it.getValue(Ban::class.java)
+                    if (ban?.trangThai == false){
+                        listBan.add(ban!!)
+                        adapterBan.notifyDataSetChanged()
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+    fun getAllBanConTrong(){
+        var dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Ban")
+        dbRef.orderByChild("trangThai").equalTo(false).addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (it in snapshot.children) {
+                        val kv = it.getValue(Ban::class.java)
+                        listBan.add(kv!!)
+                        adapterBan.notifyDataSetChanged()
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+    fun getAllBanSuDung(){
+        var dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Ban")
+        dbRef.orderByChild("trangThai").equalTo(true).addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (it in snapshot.children) {
+                        val kv = it.getValue(Ban::class.java)
+                        listBan.add(kv!!)
+                        adapterBan.notifyDataSetChanged()
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+    private fun getBanSuDungTheoKhu(tenKhuVuc: String) {
+        var dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Ban")
+        dbRef.orderByChild("tenKhuVuc").equalTo(tenKhuVuc).addListenerForSingleValueEvent(object : ValueEventListener{
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (it in snapshot.children){
+                    var ban = it.getValue(Ban::class.java)
+                    if (ban?.trangThai == true){
+                        listBan.add(ban!!)
+                        adapterBan.notifyDataSetChanged()
+                    }
+                }
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
     private fun getBan(tenKhuVuc: String) {
         var dbRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("Ban")
         dbRef.orderByChild("tenKhuVuc").equalTo(tenKhuVuc).addListenerForSingleValueEvent(object : ValueEventListener{
@@ -118,6 +209,7 @@ class HienThiBan_Fragment : Fragment() {
             }
         })
     }
+
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =

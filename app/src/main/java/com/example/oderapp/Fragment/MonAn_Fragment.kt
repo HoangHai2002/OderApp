@@ -70,6 +70,10 @@ class MonAn_Fragment : Fragment() {
             override fun onClickMonAn(itemData: MonAn, gia: Int, count: Int) {
                 TODO("Not yet implemented")
             }
+
+            override fun onClickXoa(id: String?, pos: Int) {
+                TODO("Not yet implemented")
+            }
         }
         adapter = MonAn_Adapter(listMonAn, listener)
         rc_monAn.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

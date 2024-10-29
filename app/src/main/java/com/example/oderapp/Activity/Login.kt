@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener
 
 class Login : AppCompatActivity() {
     lateinit var bind : ActivityLoginBinding
-    lateinit var userRef : DatabaseReference
+    private lateinit var userRef : DatabaseReference
     lateinit var firebase : FirebaseDatabase
     lateinit var user : User
     lateinit var preferences : Preferences
@@ -28,7 +28,7 @@ class Login : AppCompatActivity() {
         setContentView(bind.root)
         firebase = FirebaseDatabase.getInstance()
         preferences = Preferences(this)
-        if (preferences.islogin() == true){
+        if (preferences.islogin()){
             var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -36,14 +36,14 @@ class Login : AppCompatActivity() {
             if (bind.edtUsernameLogin.text.toString() != "" && bind.edtPasswordLogin.text.toString() != ""){
                 if (bind.rbtnNhanvien.isChecked){
                     userRef = firebase.getReference("NhanVien")
-                    var username = bind.edtUsernameLogin.text.toString()
-                    var password = bind.edtPasswordLogin.text.toString()
+                    val username = bind.edtUsernameLogin.text.toString()
+                    val password = bind.edtPasswordLogin.text.toString()
                     checkUser(username, password, userRef, false)
                 }
                 if (bind.rbtnQuanly.isChecked){
                     userRef = firebase.getReference("QuanLy")
-                    var username = bind.edtUsernameLogin.text.toString()
-                    var password = bind.edtPasswordLogin.text.toString()
+                    val username = bind.edtUsernameLogin.text.toString()
+                    val password = bind.edtPasswordLogin.text.toString()
                     checkUser(username, password, userRef, true)
                 }
             }else{

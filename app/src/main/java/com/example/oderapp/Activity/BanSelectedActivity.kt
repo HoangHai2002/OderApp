@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.oderapp.Adapter.BanSelected_Adapter
@@ -79,26 +80,35 @@ class BanSelectedActivity : AppCompatActivity() {
 
 
         bind.btnThanhtoan.setOnClickListener {
-            val thanhtoanRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("ThanhToan")
-            val newKey = thanhtoanRef.push().key!!
-            val newKey1 = thanhtoanRef.push().key!!
-            val monAnThanhToan : MutableList<MonAnThanhToan> = mutableListOf()
-            val thanhToan = ThanhToan(newKey, "","", "", 0, monAnThanhToan, "", "")
-
-
-            CoroutineScope(Dispatchers.Main).launch {
-                thanhtoanRef.child(newKey).setValue(thanhToan)
-                checkIdBanThanhToan(id, sum, newKey)
-                delay(1000)
-                resetBan(id)
-                var intent = Intent(this@BanSelectedActivity, MainActivity::class.java)
-                startActivity(intent)
+            val build = AlertDialog.Builder(this)
+            build.setTitle("Xác nhận thanh toán?")
+            build.setPositiveButton("OK"){ dialog, which ->
+                val thanhtoanRef : DatabaseReference = FirebaseDatabase.getInstance().getReference("ThanhToan")
+                val newKey = thanhtoanRef.push().key!!
+                val newKey1 = thanhtoanRef.push().key!!
+                val monAnThanhToan : MutableList<MonAnThanhToan> = mutableListOf()
+                val thanhToan = ThanhToan(newKey, "","", "", 0, monAnThanhToan, "", "")
+                
+                CoroutineScope(Dispatchers.Main).launch {
+                    thanhtoanRef.child(newKey).setValue(thanhToan)
+                    checkIdBanThanhToan(id, sum, newKey)
+                    delay(1000)
+                    resetBan(id)
+                    var intent = Intent(this@BanSelectedActivity, MainActivity::class.java)
+                    startActivity(intent)
+                }
             }
-
-
-
-
+            build.setNegativeButton("Cancel") { dialog, which ->
+                dialog.dismiss()
+            }
+            build.show()
         }
+
+
+
+
+
+
         bind.btnAdd.setOnClickListener {
             var intent = Intent(this@BanSelectedActivity, OrderActivity::class.java)
             intent.putExtra("id", id)
@@ -115,11 +125,33 @@ class BanSelectedActivity : AppCompatActivity() {
                     for (it in snapshot.children){
                         var order = it.getValue(Order::class.java)
                         if (order?.id_ban == idBan && order?.id_monAn == idMonAn){
+                            truTongTien(idMonAn, idBan, order?.soLuong)
                             val xoaRef = FirebaseDatabase.getInstance().getReference("Order").child(order?.id.toString())
                             xoaRef.removeValue()
                             listData.removeAt(pos)
                             adapter.notifyDataSetChanged()
                         }
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    private fun truTongTien(idMonAn: String?, idBan: String?, soLuong: Int?) {
+        dbRef = FirebaseDatabase.getInstance().getReference("MonAn")
+        dbRef.orderByChild("id").equalTo(idMonAn).addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    for(it in snapshot.children){
+                        var newMonAn = it.getValue(MonAn::class.java)
+                        var tong = newMonAn?.gia!! * soLuong!!
+                        sum = sum - tong
+                        bind.tvTongtien.setText(sum.toString())
+                        updateTongTien(idBan, sum)
                     }
                 }
             }
