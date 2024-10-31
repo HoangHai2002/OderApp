@@ -42,10 +42,10 @@ class Register : AppCompatActivity() {
             finish()
         }
         bind.btnRegisterRegister.setOnClickListener {
-            val username = bind.edtUsernameRegister.text.toString()
-            val password = bind.edtPasswordRegister.text.toString()
-            val fullName = bind.edtFullName.text.toString()
-            val confirmpassword = bind.edtConfirmPasswordRegister.text.toString()
+            val username = bind.edtUsernameRegister.text.toString().trim()
+            val password = bind.edtPasswordRegister.text.toString().trim()
+            val fullName = bind.edtFullName.text.toString().trim()
+            val confirmpassword = bind.edtConfirmPasswordRegister.text.toString().trim()
             if(username != "" && password != "" && confirmpassword != "" &&
                 password == confirmpassword && fullName != "" &&
                 checkPassWordLength && checkPassWordStyle){

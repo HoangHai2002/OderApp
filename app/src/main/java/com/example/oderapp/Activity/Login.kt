@@ -36,14 +36,14 @@ class Login : AppCompatActivity() {
             if (bind.edtUsernameLogin.text.toString() != "" && bind.edtPasswordLogin.text.toString() != ""){
                 if (bind.rbtnNhanvien.isChecked){
                     userRef = firebase.getReference("NhanVien")
-                    val username = bind.edtUsernameLogin.text.toString()
-                    val password = bind.edtPasswordLogin.text.toString()
+                    val username = bind.edtUsernameLogin.text.toString().trim()
+                    val password = bind.edtPasswordLogin.text.toString().trim()
                     checkUser(username, password, userRef, false)
                 }
                 if (bind.rbtnQuanly.isChecked){
                     userRef = firebase.getReference("QuanLy")
-                    val username = bind.edtUsernameLogin.text.toString()
-                    val password = bind.edtPasswordLogin.text.toString()
+                    val username = bind.edtUsernameLogin.text.toString().trim()
+                    val password = bind.edtPasswordLogin.text.toString().trim()
                     checkUser(username, password, userRef, true)
                 }
             }else{
