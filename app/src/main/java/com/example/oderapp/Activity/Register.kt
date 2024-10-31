@@ -55,7 +55,7 @@ class Register : AppCompatActivity() {
                         password,
                         fullName
                     )
-                    themNguoiDung(user, nhanVienRef)
+                    addUser(user, nhanVienRef)
                 }
                 //Thêm quản lý
                 if (bind.rbtnQuanly.isChecked){
@@ -64,7 +64,7 @@ class Register : AppCompatActivity() {
                         password,
                         fullName
                     )
-                    themNguoiDung(admin, quanLyRef)
+                    addUser(admin, quanLyRef)
                 }
             }else{
                 if (fullName == ""){
@@ -142,34 +142,12 @@ class Register : AppCompatActivity() {
 
         })
     }
-    fun addMember(user: User){
-        val memberDatabase = FirebaseDatabase.getInstance().getReference("NhanVien")
-        val userID = memberDatabase.push().key!!
-        memberDatabase.child(userID).setValue(user).addOnSuccessListener {
-            Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
-
-        }.addOnFailureListener {
-            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
-        }
-    }
-    fun addAdmin(admin: User){
-
-        val memberDatabase = FirebaseDatabase.getInstance().getReference("QuanLy")
-        val userID = memberDatabase.push().key!!
-        memberDatabase.child(userID).setValue(admin).addOnSuccessListener {
-            Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
-            finish()
-        }.addOnFailureListener {
-            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
-        }
-    }
-    fun themNguoiDung(user : User, userRef : DatabaseReference) {
+    fun addUser(user: User, userRef: DatabaseReference){
         userRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(datasnapshot: DataSnapshot) {
                 var check : Boolean = true
                 for (snapshot in datasnapshot.children){
                     var newUser = snapshot.getValue(User::class.java)
-                    Log.d("11111111111111111111", "${newUser?.fullName} , ${user.fullName}")
                     if (newUser != null && newUser.fullName == user.fullName){
                         Toast.makeText(this@Register, "Tên người dùng đã tồn tại.", Toast.LENGTH_SHORT).show()
                         check = false
@@ -184,8 +162,10 @@ class Register : AppCompatActivity() {
                 if (check){
                     val newUserRef = userRef.push().key!!
                     userRef.child(newUserRef).setValue(user).addOnCompleteListener {
-                        Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
-                        finish()
+                        if(it.isSuccessful){
+                            Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
                     }.addOnFailureListener {
                         Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
                     }
@@ -195,5 +175,26 @@ class Register : AppCompatActivity() {
             }
         })
     }
+//    fun addMember(user: User){
+//        val memberDatabase = FirebaseDatabase.getInstance().getReference("NhanVien")
+//        val userID = memberDatabase.push().key!!
+//        memberDatabase.child(userID).setValue(user).addOnSuccessListener {
+//            Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+//
+//        }.addOnFailureListener {
+//            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//    fun addAdmin(admin: User){
+//
+//        val memberDatabase = FirebaseDatabase.getInstance().getReference("QuanLy")
+//        val userID = memberDatabase.push().key!!
+//        memberDatabase.child(userID).setValue(admin).addOnSuccessListener {
+//            Toast.makeText(this@Register, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+//            finish()
+//        }.addOnFailureListener {
+//            Toast.makeText(this@Register, "Đăng ký thất bại", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     }
