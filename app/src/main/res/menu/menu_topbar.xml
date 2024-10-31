@@ -7,16 +7,19 @@
         android:id="@+id/btn_search"
         android:title=""
         android:icon="@drawable/search"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        android:visible="false"/>
     <item
         android:id="@+id/btn_alert"
         android:title=""
         android:icon="@drawable/alert"
+        android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/tbfeedback"
         android:title=""
         android:icon="@drawable/book"
+        android:visible="false"
         app:showAsAction="always"/>
 
 

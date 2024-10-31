@@ -2,6 +2,8 @@ package com.example.oderapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -33,8 +35,9 @@ class OrderActivity : AppCompatActivity() {
     lateinit var dbRef: DatabaseReference
     lateinit var listLoaiMonAn: MutableList<LoaiMonAn>
     lateinit var adapter: LoaiMonAn_Adapter
-
     lateinit var preferences : Preferences
+    var tenLoaiMonAn: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +69,6 @@ class OrderActivity : AppCompatActivity() {
 
         val listener = object : itf_Click_LoaiMonAn {
             override fun onClick(itemData: LoaiMonAn, pos: Int, posSelected: Int) {
-                var tenLoaiMonAn: String? = ""
                 if (posSelected != RecyclerView.NO_POSITION) {
                     tenLoaiMonAn = itemData.name.toString()
                 } else {
@@ -88,6 +90,25 @@ class OrderActivity : AppCompatActivity() {
         bind.rcLoaiMonAn.adapter = adapter
 
         replaceFragment(MonAn_Fragment())
+
+        bind.edtSearch.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+               var key = bind.edtSearch.text.toString().toLowerCase()
+
+                val fragment = MonAn_Fragment()
+                val bundle = Bundle()
+                bundle.putString("key", key)
+                bundle.putString("name", tenLoaiMonAn)
+                fragment.arguments = bundle
+                replaceFragment(fragment)
+            }
+        })
     }
 
     private fun addToOrder(idBan: String?) {
@@ -154,7 +175,6 @@ class OrderActivity : AppCompatActivity() {
                 if (check) {
                     dbRef = FirebaseDatabase.getInstance().getReference("Order")
                     val newRef = dbRef.push().key!!
-
                     val newOrder = Order(newRef, idBan, monAn.id, preferences.getFullName(), monAn.soLuong, "")
                     dbRef.child(newRef).setValue(newOrder)
                 }

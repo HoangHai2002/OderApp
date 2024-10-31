@@ -30,6 +30,10 @@ class Preferences (context : Context) {
     fun getFullName(): String? {
         return sharedPref.getString("fullName", "")
     }
+    fun setFullName(fullName : String) {
+        editor.putString("fullName", fullName)
+        editor.apply()
+    }
 
     fun logout(){
         editor.remove("id")

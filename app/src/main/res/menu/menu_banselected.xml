@@ -6,6 +6,7 @@
         android:id="@+id/btn_item1"
         android:title="Chuyển bàn"
         app:showAsAction="never"
+        android:visible="false"
         />
     <item
         android:id="@+id/btn_item2"
@@ -16,5 +17,6 @@
         android:id="@+id/btn_item3"
         android:title="Lịch sử order"
         app:showAsAction="never"
+        android:visible="false"
         />
 </menu>

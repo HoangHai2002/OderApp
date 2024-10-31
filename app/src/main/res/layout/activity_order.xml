@@ -60,6 +60,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="5dp"
+            app:tint="@color/imv"
             android:src="@drawable/search" />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView

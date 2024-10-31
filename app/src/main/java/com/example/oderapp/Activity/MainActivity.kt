@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(bind.root)
         preferences = Preferences(this)
         setSupportActionBar(bind.toolbar)
-        bind.toolbar.title = ""
+        supportActionBar?.title = ""
         toggle = ActionBarDrawerToggle(
             this,
             bind.drawerLayout,
@@ -80,7 +80,6 @@ class MainActivity : AppCompatActivity() {
         bind.navView.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.btn_logout -> {
-                    Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, Login::class.java)
                     startActivity(intent)
                     preferences.logout()
@@ -117,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.btn_edituser -> {
-                    val intent = Intent(this, ThanhToanActivity::class.java)
+                    val intent = Intent(this, EditProfileActivity::class.java)
                     startActivity(intent)
                 }
 

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.oderapp.Adapter.MonAn_Adapter
@@ -57,22 +58,21 @@ class MonAn_Fragment : Fragment() {
 
 
         var tenLoaiMonAn = arguments?.getString("name")
+        var key = arguments?.getString("key")
         listMonAn = mutableListOf()
         if (tenLoaiMonAn == null) {
             listMonAn.clear()
-            getAllMonAn()
+            getAllMonAn(key.toString())
         } else {
             listMonAn.clear()
-            getMonAn(tenLoaiMonAn)
+            getMonAn(tenLoaiMonAn, key.toString())
         }
 
         var listener = object : itf_Click_MonAn {
             override fun onClickMonAn(itemData: MonAn, gia: Int, count: Int) {
-                TODO("Not yet implemented")
             }
 
             override fun onClickXoa(id: String?, pos: Int) {
-                TODO("Not yet implemented")
             }
         }
         adapter = MonAn_Adapter(listMonAn, listener)
@@ -82,7 +82,7 @@ class MonAn_Fragment : Fragment() {
         return view
     }
 
-    private fun getMonAn(tenLoaiMonAn: String) {
+    private fun getMonAn(tenLoaiMonAn: String, key : String) {
         dbRef = FirebaseDatabase.getInstance().getReference("MonAn")
         dbRef.orderByChild("tenLoaiMonAn").equalTo(tenLoaiMonAn)
             .addListenerForSingleValueEvent(object :
@@ -92,6 +92,11 @@ class MonAn_Fragment : Fragment() {
                     for (it in snapshot.children) {
                         var monAn = it.getValue(MonAn::class.java)
                         listMonAn.add(monAn!!)
+                        adapter.notifyDataSetChanged()
+
+                        val filteredList = listMonAn.sortedByDescending { similarity(it.tenMonAn?.toLowerCase(), key) }
+                        listMonAn.removeAll(filteredList)
+                        listMonAn.addAll(0, filteredList)
                         adapter.notifyDataSetChanged()
                     }
                 }
@@ -104,7 +109,7 @@ class MonAn_Fragment : Fragment() {
 
     }
 
-    fun getAllMonAn() {
+    fun getAllMonAn(key : String) {
         var dbRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("MonAn")
         dbRef.addListenerForSingleValueEvent(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
@@ -113,6 +118,11 @@ class MonAn_Fragment : Fragment() {
                     for (it in snapshot.children) {
                         val monAn = it.getValue(MonAn::class.java)
                         listMonAn.add(monAn!!)
+                        adapter.notifyDataSetChanged()
+
+                        val filteredList = listMonAn.sortedByDescending { similarity(it.tenMonAn?.toLowerCase(), key) }
+                        listMonAn.removeAll(filteredList)
+                        listMonAn.addAll(0, filteredList)
                         adapter.notifyDataSetChanged()
                     }
                 }
@@ -124,6 +134,20 @@ class MonAn_Fragment : Fragment() {
         })
     }
 
+    fun similarity(s: String?, key: String): Int {
+        // Tính toán mức độ tương đồng giữa chuỗi s và key
+        // Ví dụ đơn giản: Đếm số ký tự giống nhau ở vị trí tương ứng
+        var sim = 0
+        val minLength = minOf(s?.length ?: 0, key.length)
+        for (i in 0 until minLength) {
+            if (s?.get(i) == key[i]) {
+                sim++
+            } else {
+                break
+            }
+        }
+        return sim
+    }
     companion object {
 
         @JvmStatic
